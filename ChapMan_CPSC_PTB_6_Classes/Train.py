@@ -42,9 +42,9 @@ from functions.functions import *
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
-Dirction_and_labels = pd.read_excel('.\Direction_And_folds\Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
+Dirction_and_labels = pd.read_excel('/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
 
-with open('.\Direction_And_folds\Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
+with open('/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
 
 
