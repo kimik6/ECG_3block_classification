@@ -91,7 +91,7 @@ for fold in range(NumOfFold):
 
     for TrTe in range(2):
 
-        NO_samp = np.asarray(list(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]]['bLabs0'])).sum(axis=0)
+        NO_samp = np.asarray(list(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]]['bLabs0']))
         NO_samp.sort()
 
         if TrTe == 0:
