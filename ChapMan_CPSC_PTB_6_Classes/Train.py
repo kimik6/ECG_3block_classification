@@ -35,7 +35,7 @@ from keras.utils import pad_sequences
 
 from biosppy.signals.tools import filter_signal
 
-from functions.functions import *
+from .functions.functions import *
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
