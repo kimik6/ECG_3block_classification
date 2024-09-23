@@ -42,7 +42,7 @@ from functions.functions import *
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
-Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
+Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.xlsx')
 
 with open('/kaggle/working/ECG_3block_classification/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
@@ -91,7 +91,7 @@ for fold in range(NumOfFold):
 
     for TrTe in range(2):
 
-        NO_samp = np.asarray(list(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]]['Labs'])).sum(axis=0)
+        NO_samp = np.asarray(list(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]]['bLabs0'])).sum(axis=0)
         NO_samp.sort()
 
         if TrTe == 0:
