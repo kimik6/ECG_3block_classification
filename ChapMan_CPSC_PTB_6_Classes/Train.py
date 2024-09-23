@@ -8,6 +8,7 @@ Second part of training
 # Libraries 
 
 import os
+import sys
 import math
 import random
 import pickle
@@ -35,7 +36,9 @@ from keras.utils import pad_sequences
 
 from biosppy.signals.tools import filter_signal
 
-from .functions.functions import *
+sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
+
+from functions.functions import *
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
