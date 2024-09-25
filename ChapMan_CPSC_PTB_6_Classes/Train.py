@@ -35,6 +35,8 @@ from keras.utils import pad_sequences
 
 from biosppy.signals.tools import filter_signal
 
+sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
+
 from functions.functions import *
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
