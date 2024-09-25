@@ -98,7 +98,7 @@ for fold in range(NumOfFold):
             thre = 500
         else:
             thre = 200
-        NO_New_SIN = NO_samp[-1] - (NO_samp[-2]+thre)
+        NO_New_SIN = NO_samp[-1] - (NO_samp[-2])
 
         Chap_CPSC_PTB_df = Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].drop(PAC_Rhythm[fold][TrTe].tolist() + PVC_Rhythm[fold][TrTe].tolist() + random.choice(SIN_Rhythm[fold][TrTe].tolist(), NO_New_SIN))
         Chap_CPSC_PTB.append(Chap_CPSC_PTB_df.set_index(pd.Index(np.arange(0,len(Chap_CPSC_PTB_df)))).sample(frac = 1,random_state=42))
