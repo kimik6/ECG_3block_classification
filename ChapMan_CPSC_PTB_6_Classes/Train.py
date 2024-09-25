@@ -63,7 +63,7 @@ test_split = 1
 PAC_Rhythm = []
 PVC_Rhythm = []
 SIN_Rhythm = []
-Chap_CPSC_PTB_df_Without_PAC_PVC = [] 
+ChapMan_CPSC_PTB_Without_PAC_PVC = [] 
 
 # -------------------------------------------Preprocessing part-------------------------------------------------------
 
