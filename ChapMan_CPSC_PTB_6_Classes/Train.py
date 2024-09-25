@@ -38,7 +38,7 @@ from biosppy.signals.tools import filter_signal
 
 sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
 
-from functions.functions import *
+from functions import functions
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
@@ -118,7 +118,7 @@ for fold in range(NumOfFold):
         y_1 = np.delete(y_, -1, axis=1)
         print("classes: {}".format(y_1.shape[1]))
 
-        ChapMan_CPSC_PTB_Without_PAC_PVC[fold][TrTe]['Labs'] = list(y_1)
+        ChapMan_CPSC_PTB_Without_PAC_PVC[fold][TrTe]['bLabs0'] = list(y_1)
         snomed_classes = one_hot.classes_[0:-1]
 
 # ----------------------------------------------Training part--------------------------------------------------------
