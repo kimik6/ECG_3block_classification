@@ -267,7 +267,7 @@ for fold in range(NumOfFold):
     Chap_CPSC_PTB_df_Without_PVC_infold = []
     for TrTe in range(2):
         
-        # PAC_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='PAC'].index
+        PAC_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='PAC'].index
         SIN_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SIN'].index
         SVT_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SVT'].index
         SB_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SB'].index
