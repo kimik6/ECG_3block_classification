@@ -196,9 +196,9 @@ from functions import functions
 
 Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
 
-for i,dir in enumerate(Dirction_and_labels['Ecg_dir']):
-    Dirction_and_labels['Ecg_dir'][i]= dir.replace(".../", "/kaggle/input/")
-    
+# for i,dir in enumerate(Dirction_and_labels['Ecg_dir']):
+#     Dirction_and_labels['Ecg_dir'][i]= dir.replace(".../", "/kaggle/input/")
+
 with open('/kaggle/working/ECG_3block_classification/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
 
