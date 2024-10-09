@@ -186,7 +186,7 @@ from tensorflow import keras
 from keras.utils import plot_model
 from keras.utils import pad_sequences
 
-%pip install biosppy
+# pip install biosppy
 from biosppy.signals.tools import filter_signal
 
 from functions import functions
