@@ -255,7 +255,7 @@ for fold in range(NumOfFold):
     for TrTe in range(2): 
 
         one_hot = MultiLabelBinarizer()
-        y_=one_hot.fit_transform(Chap_CPSC_PTB_df_With_PAC[fold][TrTe].CT_code.str.split(pat=','))
+        y_=one_hot.fit_transform(Chap_CPSC_PTB_df_Without_PVC[fold][TrTe].CT_code.str.split(pat=','))
         print("The classes we will look at are encoded as SNOMED CT codes:")
         print(one_hot.classes_)
         y_1 = np.delete(y_, -1, axis=1)
