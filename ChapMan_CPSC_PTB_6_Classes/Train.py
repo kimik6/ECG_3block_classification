@@ -266,7 +266,7 @@ for fold in range(NumOfFold):
     Chap_CPSC_PTB_df_Without_PVC_infold = []
     for TrTe in range(2):
         
-        PAC_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='PAC'].index
+        # PAC_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='PAC'].index
         SIN_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SIN'].index
         SVT_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SVT'].index
         SB_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SB'].index
@@ -275,7 +275,7 @@ for fold in range(NumOfFold):
         AF_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='Af'].index
 
 
-        PAC_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[PAC_Rhythm]
+        # PAC_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[PAC_Rhythm]
 
         SIN_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[SIN_Rhythm]
         SIN_Rhythm_Sampled = SIN_Rhythm_Sampled.sample(n=len(PAC_Rhythm)-10, random_state=42)
@@ -296,7 +296,7 @@ for fold in range(NumOfFold):
         AF_Rhythm_Sampled = AF_Rhythm_Sampled.sample(n=len(AF_Rhythm), random_state=42,replace=True)
         
         Chap_CPSC_PTB_df = pd.concat([SIN_Rhythm_Sampled,SVT_Rhythm_Sampled,SB_Rhythm_Sampled,STach_Rhythm_Sampled,
-                                                      Afib_Rhythm_Sampled,AF_Rhythm_Sampled,PAC_Rhythm_Sampled],ignore_index=True)
+                                                      Afib_Rhythm_Sampled,AF_Rhythm_Sampled],ignore_index=True)
         
         Chap_CPSC_PTB_df = Chap_CPSC_PTB_df.sample(frac = 1,random_state=42)
         Chap_CPSC_PTB_df = Chap_CPSC_PTB_df.set_index(pd.Index(np.arange(0,len(Chap_CPSC_PTB_df))))
