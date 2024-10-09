@@ -194,7 +194,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classif
 from functions import functions
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
-Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
+Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.csv')
 
 with open('/kaggle/working/ECG_3block_classification/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
