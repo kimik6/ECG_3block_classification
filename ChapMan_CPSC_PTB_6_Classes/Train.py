@@ -326,13 +326,13 @@ for fold in range(NumOfFold):
         mode='max',
         save_best_only=True)
     
-    last_model = functions.residual_network_1d(NumOfClass - 1,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
+    # last_model = functions.residual_network_1d(NumOfClass - 1,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
     model = functions.residual_network_1d(NumOfClass,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
 
-    last_model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.hdf5')
+    # last_model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.hdf5')
     
-    for i in range(len(model.layers)-1):
-        model.layers[i].set_weights(last_model.layers[i].get_weights())
+    # for i in range(len(model.layers)-1):
+    #     model.layers[i].set_weights(last_model.layers[i].get_weights())
     
     # order_array = folds[foldd][0]
     history = model.fit(x=functions.shuffle_batch_generator(batch_size=batchsize,
