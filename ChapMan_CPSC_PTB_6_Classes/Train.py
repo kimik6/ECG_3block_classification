@@ -248,23 +248,6 @@ for fold in range(NumOfFold):
 
     Chap_CPSC_PTB_df_With_PAC.append([Chap_CPSC_PTB[0],Chap_CPSC_PTB[1]])
 
-
-# Binarizing our k-fold labels
-for fold in range(NumOfFold):
-    
-    for TrTe in range(2): 
-
-        one_hot = functions.MultiLabelBinarizer()
-        y_=one_hot.fit_transform(Chap_CPSC_PTB_df_Without_PVC[fold][TrTe].CT_code.str.split(pat=','))
-        print("The classes we will look at are encoded as SNOMED CT codes:")
-        print(one_hot.classes_)
-        y_1 = np.delete(y_, -1, axis=1)
-        print("classes: {}".format(y_1.shape[1]))
-
-        Chap_CPSC_PTB_df_Without_PVC[fold][TrTe]['Labs'] = list(y_1)
-        snomed_classes = one_hot.classes_[0:-1]
-
-
 # Reduce number of All 6 rhythms with a constant coefficient to number of PAC rhythm 
 for fold in range(NumOfFold):
     Chap_CPSC_PTB_df_Without_PVC_infold = []
@@ -309,6 +292,24 @@ for fold in range(NumOfFold):
 
 
     Chap_CPSC_PTB_df_Without_PVC.append(Chap_CPSC_PTB_df_Without_PVC_infold)
+
+
+# Binarizing our k-fold labels
+for fold in range(NumOfFold):
+    
+    for TrTe in range(2): 
+
+        one_hot = functions.MultiLabelBinarizer()
+        y_=one_hot.fit_transform(Chap_CPSC_PTB_df_Without_PVC[fold][TrTe].CT_code.str.split(pat=','))
+        print("The classes we will look at are encoded as SNOMED CT codes:")
+        print(one_hot.classes_)
+        y_1 = np.delete(y_, -1, axis=1)
+        print("classes: {}".format(y_1.shape[1]))
+
+        Chap_CPSC_PTB_df_Without_PVC[fold][TrTe]['Labs'] = list(y_1)
+        snomed_classes = one_hot.classes_[0:-1]
+
+
 # ----------------------------------------------Training part--------------------------------------------------------
 
     """we used learning rate reducer, early stopping, and Checkpoint function in training process"""
