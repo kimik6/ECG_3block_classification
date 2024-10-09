@@ -309,8 +309,6 @@ for fold in range(NumOfFold):
 
 
     Chap_CPSC_PTB_df_Without_PVC.append(Chap_CPSC_PTB_df_Without_PVC_infold)
-
-
 # ----------------------------------------------Training part--------------------------------------------------------
 
     """we used learning rate reducer, early stopping, and Checkpoint function in training process"""
