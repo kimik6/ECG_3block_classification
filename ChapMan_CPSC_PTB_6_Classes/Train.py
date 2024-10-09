@@ -159,7 +159,7 @@ Third part of training
 """
 
 # Libraries 
-
+import sys
 import os
 import math
 import random
@@ -189,8 +189,9 @@ from keras.utils import pad_sequences
 # pip install biosppy
 from biosppy.signals.tools import filter_signal
 
-from functions import functions
+sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
 
+from functions import functions
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
 Dirction_and_labels = pd.read_excel('...\Direction_And_folds\Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
