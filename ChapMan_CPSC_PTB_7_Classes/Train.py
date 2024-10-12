@@ -8,6 +8,7 @@ Third part of training
 # Libraries 
 
 import os
+import sys
 import math
 import random
 import pickle
@@ -33,14 +34,16 @@ from tensorflow import keras
 from keras.utils import plot_model
 from keras.utils import pad_sequences
 
-%pip install biosppy
+# %pip install biosppy
 from biosppy.signals.tools import filter_signal
+
+sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
 
 from functions import functions
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
 
-Dirction_and_labels = pd.read_excel('...\Direction_And_folds\Chap_CPSC_PTB_Direction_SingleLabels_CT-Code.xlsx')
+Dirction_and_labels = pd.read_excel('...\Direction_And_folds\Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_V2.xlsx')
 
 with open('...\Direction_And_folds\Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
@@ -164,7 +167,7 @@ early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_Recall', mode='max', 
 
 for fold in range(NumOfFold):
     
-    checkpoint_filepath =f'...\Weights\Model_weights_{fold}_7Class_Chap_CPSC_PTB_PAC.hdf5'
+    checkpoint_filepath =f'...\Weights\Model_weights_{fold}_7Class_Chap_CPSC_PTB_PAC.weights.h5'
     model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_filepath,
         save_weights_only=True,
@@ -175,7 +178,7 @@ for fold in range(NumOfFold):
     last_model = functions.residual_network_1d(NumOfClass - 1,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
     model = functions.residual_network_1d(NumOfClass,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
 
-    last_model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.hdf5')
+    last_model.load_weights(f'/kaggle/working/ECG_3block_classification/ChapMan_CPSC_PTB_6_Classes/Weights/Model_weights_{fold}_6Class_Chap_CPSC_PTB.weights.h5')
     
     for i in range(len(model.layers)-1):
         model.layers[i].set_weights(last_model.layers[i].get_weights())
