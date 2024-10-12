@@ -180,7 +180,7 @@ for fold in range(NumOfFold):
     last_model = functions.residual_network_1d(NumOfClass - 1,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
     model = functions.residual_network_1d(NumOfClass,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
 
-    last_model.load_weights(f'/kaggle/working/ECG_3block_classification/ChapMan_CPSC_PTB_6_Classes/Weights/Model_weights_{fold}_6Class_Chap_CPSC_PTB_PAC.weights.h5')
+    # last_model.load_weights(f'/kaggle/working/ECG_3block_classification/ChapMan_CPSC_PTB_6_Classes/Weights/Model_weights_{fold}_6Class_Chap_CPSC_PTB_PAC.weights.h5')
     for i in range(len(model.layers)-1):
         model.layers[i].set_weights(last_model.layers[i].get_weights())
     
