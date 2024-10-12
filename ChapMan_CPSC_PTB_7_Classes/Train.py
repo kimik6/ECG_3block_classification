@@ -188,6 +188,6 @@ for fold in range(NumOfFold):
     history = model.fit(x=functions.shuffle_batch_generator(batch_size=batchsize,
                                         gen_x=functions.generate_X_shuffle(np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][0].Ecg_dir.tolist())),
                                         gen_y=functions.generate_y_shuffle(np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][0].Labs.tolist())),snomed_classes=snomed_classes),
-              epochs=NumOfEpochs, steps_per_epoch=(len(np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][0].Ecg_dir.tolist()))/batchsize),
+              epochs=NumOfEpochs, steps_per_epoch=int(len(np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][0].Ecg_dir.tolist()))/batchsize),
               validation_data=functions.generate_validation_data(np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][1].Ecg_dir.tolist()),np.asarray(Chap_CPSC_PTB_df_Without_PVC[fold][1].Labs.tolist())), 
               validation_freq=1,callbacks=[reduce_lr,early_stop,model_checkpoint_callback])
