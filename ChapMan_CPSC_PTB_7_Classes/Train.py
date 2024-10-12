@@ -42,10 +42,12 @@ sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classif
 from functions import functions
 
 # ------------------------------------------Reading existing files---------------------------------------------------- 
+Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v3.xlsx')
 
-Dirction_and_labels = pd.read_excel('...\Direction_And_folds\Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_V2.xlsx')
+# for i,dir in enumerate(Dirction_and_labels['Ecg_dir']):
+#     Dirction_and_labels['Ecg_dir'][i]= dir.replace(".../", "/kaggle/input/")
 
-with open('...\Direction_And_folds\Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
+with open('/kaggle/working/ECG_3block_classification/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
     Folds_splited_data = pickle.load(handle)
 
 # ------------------------------------------Constant values and Empty lists-------------------------------------------
