@@ -16,6 +16,7 @@ from sklearn import preprocessing
 from sklearn.utils import resample
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
+sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classification'))
 
 from functions import functions
 
