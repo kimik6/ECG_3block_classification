@@ -169,7 +169,7 @@ early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_Recall', mode='max', 
 
 for fold in range(NumOfFold):
     
-    checkpoint_filepath =f'...\Weights\Model_weights_{fold}_7Class_Chap_CPSC_PTB_PAC.weights.h5'
+    checkpoint_filepath =f'/kaggle/working/ECG_3block_classification/ChapMan_CPSC_PTB_7_Classes/Weights/Model_weights_{fold}_7Class_Chap_CPSC_PTB_PAC.weights.h5'
     model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_filepath,
         save_weights_only=True,
