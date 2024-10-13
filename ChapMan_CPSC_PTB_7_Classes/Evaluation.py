@@ -22,8 +22,123 @@ sys.path.insert(1, os.path.join(sys.path[0], '/kaggle/working/ECG_3block_classif
 from functions import functions
 
 
+# ------------------------------------------Reading existing files---------------------------------------------------- 
+Dirction_and_labels = pd.read_excel('/kaggle/working/ECG_3block_classification/Direction_And_folds/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v3.xlsx')
+
+# for i,dir in enumerate(Dirction_and_labels['Ecg_dir']):
+#     Dirction_and_labels['Ecg_dir'][i]= dir.replace(".../", "/kaggle/input/")
+
+with open('/kaggle/working/ECG_3block_classification/Direction_And_folds/Train_Test_Split_8Class_Chap_CPSC_PTB.pickle', 'rb') as handle:
+    Folds_splited_data = pickle.load(handle)
+
+# ------------------------------------------Constant values and Empty lists-------------------------------------------
+
 NumOfFold = 6
 NumOfClass = 7
+NumOfEpochs = 100
+train_split = 0
+test_split = 1
+batchsize = 24
+
+PAC_Rhythm = []
+PVC_Rhythm = []
+SIN_Rhythm = []
+Chap_CPSC_PTB_df_With_PAC = []  
+Chap_CPSC_PTB_df_Without_PVC = []
+
+# -------------------------------------------Preprocessing part-------------------------------------------------------
+
+# Make a Data Frame with direction for K-fold of ChapMan, CPSC, and PTB dataset using Dirction_and_labels file
+
+# Extract the indexes of PVC rhythm to remove them from our Data Frame
+for fold in range(NumOfFold):
+
+    PVC = []
+    SIN = []
+    for TrTe in range(2):
+
+        PVC.append(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].Labs_Type[Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].Labs_Type=='PVC'].index)
+        SIN.append(Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].Labs_Type[Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].Labs_Type=='SIN'].index)
+        
+    PVC_Rhythm.append([PVC[0],PVC[1]])
+    SIN_Rhythm.append([SIN[0],SIN[1]])
+
+
+# Make train and test data frame without PVC and a fraction of Normal
+for fold in range(NumOfFold):
+    Chap_CPSC_PTB = []
+    
+    for TrTe in range(2):
+        
+        Chap_CPSC_PTB_df = Dirction_and_labels.iloc[Folds_splited_data[fold][TrTe]].drop(PVC_Rhythm[fold][TrTe].tolist())
+        Chap_CPSC_PTB_df = Chap_CPSC_PTB_df.sample(frac = 1,random_state=42)
+        Chap_CPSC_PTB.append(Chap_CPSC_PTB_df.set_index(pd.Index(np.arange(0,len(Chap_CPSC_PTB_df)))))
+
+
+    Chap_CPSC_PTB_df_With_PAC.append([Chap_CPSC_PTB[0],Chap_CPSC_PTB[1]])
+
+
+# Binarizing our k-fold labels
+for fold in range(NumOfFold):
+    
+    for TrTe in range(2): 
+
+        one_hot = MultiLabelBinarizer()
+        y_=one_hot.fit_transform(Chap_CPSC_PTB_df_With_PAC[fold][TrTe].CT_code.str.split(pat=','))
+        print("The classes we will look at are encoded as SNOMED CT codes:")
+        print(one_hot.classes_)
+        y_1 = np.delete(y_, -1, axis=1)
+        print("classes: {}".format(y_1.shape[1]))
+
+        Chap_CPSC_PTB_df_With_PAC[fold][TrTe]['Labs'] = list(y_1)
+        snomed_classes = one_hot.classes_[0:-1]
+
+
+# Reduce number of All 6 rhythms with a constant coefficient to number of PAC rhythm 
+for fold in range(NumOfFold):
+    Chap_CPSC_PTB_df_Without_PVC_infold = []
+    for TrTe in range(2):
+        
+        PAC_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='PAC'].index
+        SIN_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SIN'].index
+        SVT_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SVT'].index
+        SB_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='SB'].index
+        STach_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='STach'].index
+        Afib_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='Afib'].index
+        AF_Rhythm = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type[Chap_CPSC_PTB_df_With_PAC[fold][TrTe].Labs_Type=='Af'].index
+
+
+        PAC_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[PAC_Rhythm]
+
+        SIN_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[SIN_Rhythm]
+        SIN_Rhythm_Sampled = SIN_Rhythm_Sampled.sample(n=len(PAC_Rhythm)-10, random_state=42)
+
+        SVT_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[SVT_Rhythm]
+        SVT_Rhythm_Sampled = SVT_Rhythm_Sampled.sample(n=len(SVT_Rhythm), random_state=42,replace=True)
+
+        SB_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[SB_Rhythm]
+        SB_Rhythm_Sampled = SB_Rhythm_Sampled.sample(n=len(PAC_Rhythm)-10, random_state=42)
+
+        STach_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[STach_Rhythm]
+        STach_Rhythm_Sampled = STach_Rhythm_Sampled.sample(n=len(PAC_Rhythm)-10, random_state=42)
+
+        Afib_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[Afib_Rhythm]
+        Afib_Rhythm_Sampled = Afib_Rhythm_Sampled.sample(n=len(PAC_Rhythm)-10, random_state=42)
+
+        AF_Rhythm_Sampled = Chap_CPSC_PTB_df_With_PAC[fold][TrTe].iloc[AF_Rhythm]
+        AF_Rhythm_Sampled = AF_Rhythm_Sampled.sample(n=len(AF_Rhythm), random_state=42,replace=True)
+        
+        Chap_CPSC_PTB_df = pd.concat([SIN_Rhythm_Sampled,SVT_Rhythm_Sampled,SB_Rhythm_Sampled,STach_Rhythm_Sampled,
+                                                      Afib_Rhythm_Sampled,AF_Rhythm_Sampled,PAC_Rhythm_Sampled],ignore_index=True)
+        
+        Chap_CPSC_PTB_df = Chap_CPSC_PTB_df.sample(frac = 1,random_state=42)
+        Chap_CPSC_PTB_df = Chap_CPSC_PTB_df.set_index(pd.Index(np.arange(0,len(Chap_CPSC_PTB_df))))
+
+        Chap_CPSC_PTB_df_Without_PVC_infold.append(Chap_CPSC_PTB_df)
+
+
+    Chap_CPSC_PTB_df_Without_PVC.append(Chap_CPSC_PTB_df_Without_PVC_infold)
+
 
 model = functions.residual_network_1d(NumOfClass,trainable=True,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3)
 
