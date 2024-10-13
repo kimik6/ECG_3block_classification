@@ -33,7 +33,7 @@ model = functions.residual_network_1d(NumOfClass,trainable=True,trainable_last_l
 # General report of classification of each folds
 for fold in range(NumOfFold):
 
-    model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.hdf5')
+    model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.weights.h5')
 
     print(f'Fold {fold}')
     prediction = model.predict(functions.generate_validation_data(np.asarray(ChapMan_CPSC_PTB_Without_PAC_PVC[fold][1].Ecg_dir.tolist()),
@@ -58,7 +58,7 @@ and ultimately, the mean of these confusion matrices is reported.
 """
 for fold in range(NumOfFold):
 
-    model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.hdf5')
+    model.load_weights(f'...\ChapMan_CPSC_PTB_6_Classes\Weights\Model_weights_{fold}_6Class_Chap_CPSC_PTB.weights.h5')
 
     print(f'Fold {fold}')
     y_pred = model.predict(functions.generate_validation_data(np.asarray(ChapMan_CPSC_PTB_Without_PAC_PVC[fold][1].Ecg_dir.tolist()),
