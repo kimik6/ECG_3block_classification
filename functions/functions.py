@@ -151,7 +151,7 @@ def generate_validation_data(ecg_filenames, y):
 
 
 def residual_network_1d(Dense_num,trainable,trainable_last_layer=True,trainableOnelast=True,Classifire=1,LR=10e-3):
-    n_feature_maps = 64
+    n_feature_maps = 128
     input_shape = (None,12)
     input_layer = keras.layers.Input(input_shape)
 
