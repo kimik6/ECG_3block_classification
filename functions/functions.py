@@ -83,7 +83,7 @@ def split_data(labels, y_all_combo):
         
 
 def shuffle_batch_generator(batch_size, gen_x,gen_y,snomed_classes): 
-    batch_features = np.zeros((batch_size,2500, 12))
+    batch_features = np.zeros((batch_size,5000, 12))
     batch_labels = np.zeros((batch_size,snomed_classes.shape[0])) #drop undef class
     while True:
         for i in range(batch_size):
@@ -101,20 +101,11 @@ def generate_y_shuffle(y_train):
 
 
 def generate_X_shuffle(X_train):
-    target_length = 2500
-
     while True:
         for i in range(len(X_train)):
                     data,_ = load_challenge_data(X_train[i])
-
-                    # Generate indices for uniform sampling
-                    indices = np.linspace(0, data.shape[1] - 1, target_length, dtype=int)
-
-                    # Downsample each lead using the indices
-                    downsampled_data = data[:, indices]
-                    # downsampled_data = data[::2]
-                    X_train_new = pad_sequences(downsampled_data, maxlen=2500, truncating='post',padding="post")
-                    X_train_new = X_train_new.reshape(2500,12)
+                    X_train_new = pad_sequences(data, maxlen=5000, truncating='post',padding="post")
+                    X_train_new = X_train_new.reshape(5000,12)
                     X_train_new = X_train_new / abs(X_train_new).max()
 
                     yield X_train_new
@@ -132,20 +123,16 @@ def generate_validation_data(ecg_filenames, y):
     y_train_gridsearch=y
     ecg_filenames_train_gridsearch=ecg_filenames
     ecg_train_timeseries=[]
-    target_length=2500
+    
     for names in ecg_filenames_train_gridsearch:
         
         data,_ = load_challenge_data(names)
-        indices = np.linspace(0, data.shape[1] - 1, target_length, dtype=int)
-
-        # Downsample each lead using the indices
-        downsampled_data = data[:, indices]        
-        data = pad_sequences(downsampled_data, maxlen=2500, truncating='post',padding="post")
+        data = pad_sequences(data, maxlen=5000, truncating='post',padding="post")
         data = data / abs(data).max()
         ecg_train_timeseries.append(data)
     X_train_gridsearch = np.asarray(ecg_train_timeseries)
 
-    X_train_gridsearch = X_train_gridsearch.reshape(ecg_filenames_train_gridsearch.shape[0],2500,12)
+    X_train_gridsearch = X_train_gridsearch.reshape(ecg_filenames_train_gridsearch.shape[0],5000,12)
 
     return X_train_gridsearch, y_train_gridsearch
 
