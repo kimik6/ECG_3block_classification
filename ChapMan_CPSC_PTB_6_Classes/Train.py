@@ -209,7 +209,7 @@ NumOfClass = 6
 NumOfEpochs = 100
 train_split = 0
 test_split = 1
-batchsize = 24
+batchsize = 16
 
 PAC_Rhythm = []
 PVC_Rhythm = []
